@@ -7,8 +7,7 @@ from app.postgres_client import (
     insert_measurement_bulk
 )
 
-logging.basicConfig(level=logging.INFO)
-log = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 def generate_time_series_data():
     node_ids = get_all_nodes()
@@ -29,19 +28,19 @@ def generate_time_series_data():
     
     MAX_ROWS = 300000
     data = data[:MAX_ROWS]
-    log.info("Prepared %d records", len(data))
+    logger.info("Prepared %d records", len(data))
 
     batch_size = 1000
     for i in range(0, len(data), batch_size):
         insert_measurement_bulk(data[i:i+batch_size])
-        log.info("Inserted batch %d", (i // batch_size) + 1)
+        logger.info("Inserted batch %d", (i // batch_size) + 1)
 
 def main():
-    log.info("Inserting static data...")
+    logger.info("Inserting static data...")
     insert_static_data()
-    log.info("Generating measurements...")
+    logger.info("Generating measurements...")
     generate_time_series_data()
-    log.info("Done!")
+    logger.info("Done!")
 
 if __name__ == "__main__":
     main()

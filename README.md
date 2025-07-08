@@ -1,19 +1,19 @@
 # GridBeyond
 
-This submission contains a PostgreSQL-backed Python exercise for mocking time-series data across Grid, Region and Node
+This project demonstrates a PostgreSQL-backed Python application that simulates and queries time-series data across a hierarchical energy grid structure: Grid → Region → Node.
 
 ## Features
 
-- Relational schema with Grid -> Region -> Node hierarchy
-- Timeseries data model supporting value evolution
-- API to query:
-  - Latest value for each timestamp
-  - Value as collected at a specific time
-- Script to insert 1 week of sample data
+- Normalized schema representing grid infrastructure: Grid -> Region -> Node hierarchy
+- Time-series data model supporting historical value snapshots (timestamp) and data collection time (collected_at)
+- FastAPI-based endpoints:
+  - Query latest values across grid nodes
+  - Retrieve values as collected at a specific timestamp
+- Script to generate 1 week of sample data
 
 ## Setup Instructions 
 
-### 1. Install Requirements
+### 1. Install Requirements:
 ```bash
 python3 -m venv venv
 source venv/bin/activate
@@ -29,19 +29,22 @@ psql gridbeyond -f database/schemas.sql
 
 ```
 
-### 3. Generate data:
+### 3. Generate Sample Time-Series Data:
 ```bash
 python3 -m database.data_migration
 ```
 
-### 4.  Run API
+### 4. Start the API Server:
 ```bash
 python3 -m uvicorn api.main:app --reload
 ```
 
-### 5. Example rest calls
 
-Swagger - http://localhost:8000/docs
+## API Usage
+
+### Interactive docs available at: http://localhost:8000/docs
+
+### Example: Get Latest Measures by Region
 
 ```bash
 curl -X POST "http://localhost:8000/latest_measures" \
@@ -52,6 +55,8 @@ curl -X POST "http://localhost:8000/latest_measures" \
     "region_id": 3
   }'
 ```
+
+### Example: Get Measures at Collection Time
 
 ```bash
 curl -X POST "http://localhost:8000/measures_at_collection" \

@@ -4,6 +4,10 @@ from .postgres_client import (
     get_latest_measures,
     get_measures_at_collection
 )
+from dotenv import load_dotenv
+
+# Load environment variables from .env
+load_dotenv()
 
 app = FastAPI()
 

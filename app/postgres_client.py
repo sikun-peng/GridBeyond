@@ -6,7 +6,7 @@ from datetime import datetime
 from .postgres_config import PostgresConfig  
 
 logging.basicConfig(level=logging.INFO)
-log = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 pg_config = PostgresConfig()
 
 @contextmanager
@@ -29,9 +29,9 @@ def database_connection():
 
 def execute_query(query, params=None, fetch=False):
     """Generic query executor"""
-    log.info("Executing SQL query...")
-    log.info("Query: %s", query)
-    log.info("Parameters: %s", params)
+    logger.info("Executing SQL query...")
+    logger.info("Query: %s", query)
+    logger.info("Parameters: %s", params)
     with database_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(query, params)
